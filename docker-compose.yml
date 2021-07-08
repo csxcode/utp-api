@@ -1,0 +1,21 @@
+version: '3.7'
+services:    
+    database:
+        container_name: 'utp_db'
+        image: mysql:8
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - './docker/data/mysql:/var/lib/mysql'
+            - './docker/logs/mysql:/var/log/mysql'
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: utp_test
+            MYSQL_USER: developer
+            MYSQL_PASSWORD: developer
+        networks:
+            - utpnet
+networks:
+    utpnet:            
