@@ -5,9 +5,18 @@ import { AuthModule as AuthModuleWeb } from './web/auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { routes } from './routes';
+import { configService } from './config/config.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-    imports: [RouterModule.forRoutes(routes), AuthModule, AuthModuleWeb],
+    imports: [
+        TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
+        ConfigModule.forRoot(configService.getConfig()),        
+        RouterModule.forRoutes(routes),
+        AuthModule,
+        AuthModuleWeb,        
+    ],
     controllers: [AppController],
     providers: [AppService],
 })

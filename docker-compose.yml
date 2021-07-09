@@ -1,21 +1,39 @@
 version: '3.7'
-services:    
+services:   
+    api:       
+        container_name: utp_api
+        build:
+            dockerfile: ./docker/bin/webserver/Dockerfile
+            context: .        
+            target: development # Only will build development stage from our dockerfile
+        volumes:
+            - .:/usr/src/app
+            - ./usr/src/app/node_modules    
+        command: npm run start:dev        
+        depends_on: 
+            - database        
+        ports:
+            - ${SERVER_PORT}:3000          
+            - 9229:9229 # debugging port 
+        networks:
+            - utpnet
     database:
         container_name: 'utp_db'
-        image: mysql:8
-        command: --default-authentication-plugin=mysql_native_password
+        build:
+            dockerfile: ./docker/bin/mysql8/Dockerfile
+            context: .                
+        restart: always        
+        ports:
+            - 3306:3306    
         volumes:
             - './docker/data/mysql:/var/lib/mysql'
-            - './docker/logs/mysql:/var/log/mysql'
-        restart: always
-        ports:
-            - 3306:3306
+            - './docker/logs/mysql:/var/log/mysql'       
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: utp_test
-            MYSQL_USER: developer
-            MYSQL_PASSWORD: developer
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
         networks:
             - utpnet
 networks:
-    utpnet:            
+    utpnet:                
