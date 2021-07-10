@@ -1,8 +1,0 @@
-{    
-    "workbench.colorCustomizations": {
-        "activityBar.foreground": "#abe9f0",
-        "activityBarBadge.background": "#bf1717",     
-        "editor.background": "#212733",        
-    },
-    "explorer.compactFolders": false
-}
