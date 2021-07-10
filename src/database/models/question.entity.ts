@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { AlternativeEntity } from './alternative.entity';
-import { ThematicEntity } from './thematic.entity';
+import { TestConfigEntity } from './test-config.entity';
 
 @Entity({ name: 'questions' })
 @Unique(['code'])
@@ -17,21 +17,33 @@ export class QuestionEntity {
     @Column({ type: 'varchar', length: 100, nullable: true })
     image: string;
 
-    @Column({ name: 'is_active', type: 'boolean', default: false })
-    isActive: boolean;   
+    @Column({ type: 'boolean', default: false })
+    is_active: boolean;   
 
-    @Column({ name: 'level', type: 'varchar', length: 15 })
+    @Column({ type: 'varchar', length: 15 })
     level: string;       
+
+    @Column({ type: "bigint", nullable: false })
+    test_config_id: number;
+
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
-    @ManyToOne(() => ThematicEntity, thematic => thematic.questions, {
-        nullable: false
+    
+    //---------------------
+    // test_config
+    //---------------------
+    @ManyToOne(() => TestConfigEntity, testConfig => testConfig.questions, {
+        nullable: false,
+        onDelete: 'CASCADE'
     })
-    @JoinColumn([{ name: "thematic_id", referencedColumnName: "id" }])
-    thematic: ThematicEntity;
+    @JoinColumn([{ name: "test_config_id", referencedColumnName: "id" }])
+    testConfig: TestConfigEntity;
 
+    //---------------------
+    // alternatives
+    //---------------------
     @OneToMany(() => AlternativeEntity, alternative => alternative.question, {
         onDelete: 'CASCADE'
     })

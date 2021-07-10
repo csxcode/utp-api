@@ -9,10 +9,9 @@ export class SettingEntity {
     @Column({ type: 'text'})
     value: string;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 }

@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AreaEntity } from './area.entity';
 import { TestAnswerEntity } from './test-answer.entity';
+import { TestConfigEntity } from './test-config.entity';
 import { TestEntity } from './test.entity';
 import { ThematicEntity } from './thematic.entity';
 
@@ -9,75 +10,83 @@ export class TestQuestionEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;    
 
-    @Column({ name: 'question_code', type: 'varchar', length: 20 })
-    questionCode: string;
+    @Column({ type: "bigint" })
+    test_id: number;
 
-    @Column({ name: 'question_description', type: 'text' })
-    questionDescription: string;
+    @Column({ type: "bigint", nullable: true })
+    test_config_id: number;
+
+    @Column({ type: 'varchar', length: 20 })
+    test_config_code: string;
+
+    @Column({ type: 'varchar', length: 20 })
+    question_code: string;
+
+    @Column({ type: 'text' })
+    question_description: string;
    
-    @Column({ name: 'question_image', type: 'varchar', length: 100, nullable: true })
-    questionImage: string;
+    @Column({ type: 'varchar', length: 100, nullable: true })
+    question_image: string;
 
-    @Column({ name: 'question_level', type: 'varchar', length: 15 })
-    questionLevel: string;
+    @Column({ type: 'varchar', length: 15 })
+    question_level: string;   
 
-    @Column({ name: 'question_thematic_name', type: 'varchar', length: 100 })
-    questionThematicName: string;
-
-    @Column({ name: 'is_marked', type: 'boolean', nullable: true })
-    isMarked: boolean;      
+    @Column({ type: 'boolean', nullable: true })
+    is_marked: boolean;      
     
-    @Column({ name: 'area_code', type: 'varchar', length: 5 })
-    areaCode: string;
- 
-    @Column({ name: 'thematic_name', type: 'varchar', length: 100 })
-    thematicName: string;
+    @Column({ type: "smallint" })
+    area_id: number;
 
-    @Column({
-        name: 'question_start',
+    @Column({ type: 'varchar', length: 5 })
+    area_code: string;
+ 
+    @Column({ type: 'varchar', length: 100 })
+    thematic_name: string;
+
+    @Column({        
         type: 'timestamp',
         nullable: true,
     })
-    questionStart: Date;
+    question_start: Date;
 
-    @Column({
-        name: 'question_end',
+    @Column({        
         type: 'timestamp',
         nullable: true,        
     })
-    questionEnd: Date;
+    question_end: Date;
 
-    @Column({
-        name: 'created_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         nullable: true,        
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
-    @ManyToOne(() => TestEntity, test => test.testQuestions)
+    @ManyToOne(() => TestEntity, test => test.test_questions)
     @JoinColumn([{ name: "test_id", referencedColumnName: "id" }])
     test: TestEntity;
 
-    @ManyToOne(() => AreaEntity, area => area.testQuestions)
+
+    @ManyToOne(() => AreaEntity, area => area.test_questions)
     @JoinColumn([{ name: "area_id", referencedColumnName: "id" }])
     area: AreaEntity;
 
-    @ManyToOne(() => ThematicEntity, thematic => thematic.testQuestions)
-    @JoinColumn([{ name: "thematic_id", referencedColumnName: "id" }])
-    thematic: ThematicEntity;
 
-    @OneToMany(() => TestAnswerEntity, testAnswer => testAnswer.testQuestion, {
+    @ManyToOne(() => TestConfigEntity, testConfig => testConfig.test_questions)
+    @JoinColumn([{ name: "test_config_id", referencedColumnName: "id" }])
+    test_config: TestConfigEntity;
+
+
+    @OneToMany(() => TestAnswerEntity, testAnswer => testAnswer.test_question, {
         onDelete: 'CASCADE'
     })
-    testAnswers: TestAnswerEntity[];
+    test_answers: TestAnswerEntity[];
 }

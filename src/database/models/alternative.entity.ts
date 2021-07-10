@@ -6,20 +6,28 @@ export class AlternativeEntity {
     @PrimaryGeneratedColumn({type: 'bigint'})    
     id: number;    
 
+    @Column({ type: "bigint", nullable: false })
+    question_id: number;
+
     @Column({ type: 'varchar', length: 100 })
     option: string;
    
     @Column({ type: 'varchar', length: 100, nullable: true })
     image: string;
 
-    @Column({ name: 'is_valid', type: 'boolean', default: false })
-    isValid: boolean;        
+    @Column({ type: 'boolean', default: false })
+    is_valid: boolean;        
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
+    
+    //---------------------
+    // question
+    //---------------------
     @ManyToOne(() => QuestionEntity, question => question.alternatives, {
-        nullable: false
+        nullable: false,
+        onDelete: 'CASCADE'
     })
     @JoinColumn([{ name: "question_id", referencedColumnName: "id" }])
     question: QuestionEntity;

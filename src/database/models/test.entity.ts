@@ -7,46 +7,45 @@ export class TestEntity {
     @PrimaryGeneratedColumn({type: 'bigint'})    
     id: Number;    
 
-    @Column({ name: 'start_date', type: 'timestamp', nullable: true })
-    startDate: Date;
+    @Column({ type: 'timestamp', nullable: true })
+    start_date: Date;
 
-    @Column({ name: 'end_date', type: 'timestamp', nullable: true })
-    endDate: Date;
+    @Column({ type: 'timestamp', nullable: true })
+    end_date: Date;
 
-    @Column({ name: 'total_questions', type: 'int'})
-    totalQuestions: Number;
+    @Column({ type: 'int'})
+    total_questions: Number;
 
-    @Column({ name: 'total_correct_questions', type: 'int', nullable: true })
-    totalCorrectQuestions: Number;
+    @Column({ type: 'int', nullable: true })
+    total_correct_questions: Number;
 
-    @Column({ name: 'is_completed', type: 'boolean', default: false, nullable: true })
-    isCompleted: boolean;
+    @Column({ type: 'boolean', default: false, nullable: true })
+    is_completed: boolean;
 
-    @Column({ name: 'time_over', type: 'boolean', default: false, nullable: true})
-    timeOver: boolean;
+    @Column({ type: 'boolean', default: false, nullable: true})
+    time_over: boolean;
 
-    @Column({ name: 'test_minutes', type: 'int'})
-    testMinutes: Number;
+    @Column({ type: 'int'})
+    test_minutes: Number;
 
-    @Column({
-        name: 'created_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
     @ManyToOne(() => UserEntity, user => user.tests, {
-        nullable: true
+        nullable: true,
+        onDelete: 'CASCADE'
     })
     @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
     user: UserEntity;
@@ -54,5 +53,5 @@ export class TestEntity {
     @OneToMany(() => TestQuestionEntity, testQuestion => testQuestion.test, {
         onDelete: 'CASCADE'
     })
-    testQuestions: TestQuestionEntity[];
+    test_questions: TestQuestionEntity[];
 }

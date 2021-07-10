@@ -1,4 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { QuestionEntity } from './question.entity';
+import { TestQuestionEntity } from './test-question.entity';
 import { ThematicEntity } from './thematic.entity';
 
 @Entity({ name: 'test_configs' })
@@ -13,32 +15,52 @@ export class TestConfigEntity {
     @Column({ type: 'varchar', length: 15 })
     level: string;
 
-    @Column({ name: 'questions_number', type: 'smallint'})
-    questionsNumber: number;   
+    @Column({ type: 'smallint'})
+    questions_number: number;     
 
-    @Column({ name: 'is_active', type: 'boolean', default: false })
-    isActive: boolean;   
+    @Column({ type: 'boolean', default: false })
+    is_active: boolean;   
 
-    @Column({
-        name: 'created_at',
+    @Column({ type: "bigint", nullable: false })
+    thematic_id: number;
+
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
-    @ManyToOne(() => ThematicEntity, thematic => thematic.testConfigs, {
-        nullable: false
+
+    //---------------------
+    // thematic
+    //---------------------
+    @ManyToOne(() => ThematicEntity, thematic => thematic.test_configs, {
+        nullable: false,
+        onDelete: 'CASCADE'
     })    
     @JoinColumn([{ name: "thematic_id", referencedColumnName: "id" }])
     thematic: ThematicEntity;
+
+    //---------------------
+    // question
+    //---------------------
+    @OneToMany(() => QuestionEntity, question => question.testConfig, {
+        onDelete: 'CASCADE' 
+    })
+    questions: QuestionEntity[];
+
+    //---------------------
+    // test_question
+    //---------------------
+    @OneToMany(() => TestQuestionEntity, testQuestion => testQuestion.test_config)
+    test_questions: TestQuestionEntity[];
 }

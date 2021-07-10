@@ -14,31 +14,29 @@ export class UserEntity {
     @Column({ type: 'varchar', length: 250 })
     password: string;
 
-    @Column({ name: 'email_verified_at', type: 'timestamp', nullable: true })
-    emailVerifiedAt: Date;
+    @Column({ type: 'timestamp', nullable: true })
+    email_verified_at: Date;
 
-    @Column({ name: 'is_active', type: 'boolean', default: false })
-    isActive: boolean;
+    @Column({ type: 'boolean', default: false })
+    is_active: boolean;
 
-    @Column({ name: 'last_login', type: 'timestamp', nullable: true })
-    lastLogin: Date;
+    @Column({ type: 'timestamp', nullable: true })
+    last_login: Date;
 
-    @Column({ name: 'active_jwt', type: 'text', nullable: true })
-    activeJWT: string;
+    @Column({ type: 'text', nullable: true })
+    active_jwt: string;
 
-    @Column({
-        name: 'created_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships

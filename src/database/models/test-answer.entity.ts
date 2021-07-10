@@ -13,32 +13,31 @@ export class TestAnswerEntity {
     @Column({ type: 'varchar', length: 100, nullable: true })
     image: string;
 
-    @Column({ name: 'is_selected', type: 'boolean', default: false, nullable: true })
-    isSelected: boolean;        
+    @Column({ type: 'boolean', default: false, nullable: true })
+    is_selected: boolean;        
 
-    @Column({ name: 'is_valid', type: 'boolean', default: false, nullable: true })
-    isValid: boolean;            
+    @Column({ type: 'boolean', default: false, nullable: true })
+    is_valid: boolean;            
 
-    @Column({
-        name: 'created_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         nullable: true,        
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------   
-    @ManyToOne(() => TestQuestionEntity, testQuestion => testQuestion.testAnswers, {
-        nullable: false
+    @ManyToOne(() => TestQuestionEntity, testQuestion => testQuestion.test_answers, {
+        nullable: false,
+        onDelete: 'CASCADE'
     })
     @JoinColumn([{ name: "test_question_id", referencedColumnName: "id" }])
-    testQuestion: TestQuestionEntity;
+    test_question: TestQuestionEntity;
 }

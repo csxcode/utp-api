@@ -19,8 +19,8 @@ export class LeadEntity {
     @Column({ type: 'varchar', length: 50 })
     surname: string;
 
-    @Column({ name: 'mother_surname', type: 'varchar', length: 50 })
-    motherSurname: string;
+    @Column({ type: 'varchar', length: 50 })
+    mother_surname: string;
 
     @Column({ type: 'char', length: 1, nullable: true })
     gender: string;
@@ -31,70 +31,68 @@ export class LeadEntity {
     @Column({ type: 'varchar', length: 10 })
     cellphone: string;
 
-    @Column({
-        name: 'document_number',
+    @Column({        
         type: 'varchar',
         length: 8,
         nullable: true,
     })
-    documentNumber: string;
+    document_number: string;
 
-    @Column({
-        name: 'birthdate',
+    @Column({        
         type: 'date',
     })
     birthdate: Date;
 
-    @Column({ name: 'interest_career_id', type: 'varchar', length: 10 })
-    interestCareerId: string;
+    @Column({ type: 'varchar', length: 10 })
+    interest_career_id: string;
 
-    @Column({ name: 'interest_career_name', type: 'varchar', length: 100 })
-    interestCareerName: string;
+    @Column({ type: 'varchar', length: 100 })
+    interest_career_name: string;
 
-    @Column({ name: 'school_id', type: 'varchar', length: 20 })
-    schoolId: string;
+    @Column({ type: 'varchar', length: 20 })
+    school_id: string;
 
-    @Column({ name: 'school_name', type: 'varchar', length: 100 })
-    schoolName: string;
+    @Column({ type: 'varchar', length: 100 })
+    school_name: string;
 
-    @Column({ name: 'promoter_id', type: 'varchar', length: 20 })
-    promoterId: string;
+    @Column({ type: 'varchar', length: 20 })
+    promoter_id: string;
 
-    @Column({ name: 'promoter_name', type: 'varchar', length: 100 })
-    promoterName: string;
+    @Column({ type: 'varchar', length: 100 })
+    promoter_name: string;
 
-    @Column({ name: 'hs_code', type: 'varchar', length: 10 })
-    hsCode: string;
+    @Column({ type: 'varchar', length: 10 })
+    hs_code: string;
 
-    @Column({ name: 'hs_name', type: 'varchar', length: 50 })
-    hsName: string;
+    @Column({ type: 'varchar', length: 50 })
+    hs_name: string;
 
-    @Column({ name: 'hs_year_completed', type: 'year' })
-    hsYearCompleted: Number;
+    @Column({ type: 'year' })
+    hs_year_completed: Number;
 
     @Column({ name: 'source', type: 'varchar', length: 50 })
     source: string;
 
-    @Column({ name: 'source_detail', type: 'varchar', length: 100 })
-    sourceDetail: string;
+    @Column({ type: 'varchar', length: 100 })
+    source_detail: string;
 
-    @Column({
-        name: 'created_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
-    @OneToOne(() => UserEntity, user => user.lead)
+    @OneToOne(() => UserEntity, user => user.lead, {
+        onDelete: 'CASCADE'
+    })
     user: UserEntity;
 }

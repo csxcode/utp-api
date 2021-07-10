@@ -11,15 +11,17 @@ export class PermissionRoleEntity {
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
-    @ManyToOne(() => RoleEntity, role => role.permissionRoles, {
-        nullable: false
+    @ManyToOne(() => RoleEntity, role => role.permission_roles, {
+        nullable: false,
+        onDelete: 'CASCADE'
     })
-    @JoinColumn([{ name: "role_id", referencedColumnName: "id" }])
+    @JoinColumn([{ name: "role_code", referencedColumnName: "code" }])
     role: RoleEntity
 
-    @ManyToOne(() => PermissionEntity, permission => permission.permissionRoles, {
-        nullable: false
+    @ManyToOne(() => PermissionEntity, permission => permission.permission_roles, {
+        nullable: false,
+        onDelete: 'CASCADE'
     })
-    @JoinColumn([{ name: "permission_id", referencedColumnName: "id" }])
+    @JoinColumn([{ name: "permission_code", referencedColumnName: "code" }])
     permission: PermissionEntity;   
 }

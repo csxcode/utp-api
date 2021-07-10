@@ -1,8 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AreaEntity } from './area.entity';
-import { QuestionEntity } from './question.entity';
 import { TestConfigEntity } from './test-config.entity';
-import { TestQuestionEntity } from './test-question.entity';
 
 @Entity({ name: 'thematics' })
 export class ThematicEntity {
@@ -12,39 +10,44 @@ export class ThematicEntity {
     @Column({ type: 'varchar', length: 100})
     name: string;   
 
-    @Column({ name: 'is_active', type: 'boolean', default: false })
-    isActive: boolean;
+    @Column({ type: 'boolean', default: false })
+    is_active: boolean;
 
-    @Column({
-        name: 'created_at',
+    @Column({ type: "smallint" })
+    area_id: number;
+
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
     // ---------------------------------------------------
     // Relationships
     // ---------------------------------------------------
+    
+    //---------------------
+    // area
+    //---------------------
     @ManyToOne(() => AreaEntity, area => area.thematics, {
-        nullable: false
+        nullable: false,
+        onDelete: 'CASCADE'
     })
     @JoinColumn([{ name: "area_id", referencedColumnName: "id" }])
     area: AreaEntity;
 
-    @OneToMany(() => TestConfigEntity, testConfig => testConfig.thematic)
-    testConfigs: TestConfigEntity[];
-
-    @OneToMany(() => QuestionEntity, question => question.thematic)
-    questions: QuestionEntity[];
-
-    @OneToMany(() => TestQuestionEntity, testQuestion => testQuestion.thematic)
-    testQuestions: TestQuestionEntity[];
+    //---------------------
+    // test_config
+    //---------------------
+    @OneToMany(() => TestConfigEntity, testConfig => testConfig.thematic, {
+        onDelete: 'CASCADE'
+    })
+    test_configs: TestConfigEntity[];      
 }
 

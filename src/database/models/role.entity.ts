@@ -1,22 +1,18 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { PermissionRoleEntity } from './permission-role.entity';
 
 @Entity({ name: 'roles' })
 @Unique(['name'])
-@Unique(['displayName'])
 export class RoleEntity {
-    @PrimaryGeneratedColumn({type: 'smallint'})         
-    id: number;    
+    @PrimaryColumn({type: 'varchar', length: 50})        
+    code: string;    
 
     @Column({ type: 'varchar', length: 50})
-    name: string;   
-
-    @Column({ name: 'display_name', type: 'varchar', length: 50})
-    displayName: string;          
+    name: string;      
 
     @OneToMany(() => PermissionRoleEntity, permissionRole => permissionRole.role, {
         onDelete: 'CASCADE'
     })
-    permissionRoles: PermissionRoleEntity[];
+    permission_roles: PermissionRoleEntity[];
 }
 

@@ -1,11 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn, Unique } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
 
 @Entity({ name: 'modules' })
 @Unique(['name'])
 export class ModuleEntity {
-    @PrimaryGeneratedColumn({type: "smallint"})        
-    id: number;    
+    @PrimaryColumn({type: 'varchar', length: 20})        
+    code: string;    
 
     @Column({ type: 'varchar', length: 50})
     name: string;   

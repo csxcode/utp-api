@@ -8,6 +8,7 @@ import { routes } from './routes';
 import { configService } from './config/config.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { CoreModule } from './core/core.module';
 
 @Module({
     imports: [
@@ -15,7 +16,8 @@ import { ConfigModule } from '@nestjs/config';
         ConfigModule.forRoot(configService.getConfig()),        
         RouterModule.forRoutes(routes),
         AuthModule,
-        AuthModuleWeb,        
+        AuthModuleWeb,
+        CoreModule,        
     ],
     controllers: [AppController],
     providers: [AppService],

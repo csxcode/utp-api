@@ -15,22 +15,23 @@ export class AreaEntity {
     @Column({ type: 'varchar', length: 100})
     name: string;   
 
-    @Column({ name: 'is_active', type: 'boolean', default: false })
-    isActive: boolean;
+    @Column({ type: 'boolean', default: false })
+    is_active: boolean;
 
-    @Column({
-        name: 'created_at',
+    @Column({ type: 'varchar', length: 100 })
+    image: string;
+
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    createdAt: Date;
+    created_at: Date;
 
-    @Column({
-        name: 'updated_at',
+    @Column({        
         type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
-    updatedAt: Date;
+    updated_at: Date;
 
      // ---------------------------------------------------
     // Relationships
@@ -41,6 +42,6 @@ export class AreaEntity {
     thematics: ThematicEntity[];
 
     @OneToMany(() => TestQuestionEntity, testQuestion => testQuestion.area)
-    testQuestions: TestQuestionEntity[];
+    test_questions: TestQuestionEntity[];
 }
 
