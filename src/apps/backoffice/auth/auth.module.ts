@@ -5,3 +5,5 @@ import { AuthController } from './controllers/auth.controller';
 	controllers: [AuthController],
 })
 export class AuthModule {}
+
+
