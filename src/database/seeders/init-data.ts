@@ -24,7 +24,7 @@ export class InitDataSeed {
             },
             {
                 code: 'SOURCE_DETAIL',
-                value: 'Examen Simulacro',
+                value: 'Examen Simulacro 001',
                 updated_at: `${new Date()}`,
             },
             {
@@ -40,7 +40,7 @@ export class InitDataSeed {
         ];
 
         await this.uow.getManager().getRepository('settings').save(settingData);
-        console.log('> settings seeded');
+        console.log('settings seeded');
     }
 
     async createRoles() {
@@ -60,7 +60,7 @@ export class InitDataSeed {
         ];
 
         await this.uow.getManager().getRepository('roles').save(roleData);
-        console.log('> roles seeded');
+        console.log('roles seeded');
     }
 
     async createModules() {
@@ -73,7 +73,7 @@ export class InitDataSeed {
         ];
 
         await this.uow.getManager().getRepository('modules').save(moduleData);
-        console.log('> modules seeded');
+        console.log('modules seeded');
     }
 
     async createPermissions() {
@@ -100,6 +100,6 @@ export class InitDataSeed {
         ];        
 
         await this.uow.getManager().getRepository('permissions').save(PermissionData);
-        console.log('> permissions seeded');
+        console.log('permissions seeded');
     }
 }

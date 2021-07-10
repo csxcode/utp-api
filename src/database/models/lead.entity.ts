@@ -67,7 +67,7 @@ export class LeadEntity {
     @Column({ type: 'varchar', length: 50 })
     hs_name: string;
 
-    @Column({ type: 'year' })
+    @Column({ type: 'year', nullable: true })
     hs_year_completed: Number;
 
     @Column({ name: 'source', type: 'varchar', length: 50 })

@@ -1,12 +1,16 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { LeadEntity } from './lead.entity';
 import { TestEntity } from './test.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'users' })
 @Unique(['email'])
 export class UserEntity {
     @PrimaryGeneratedColumn({type: 'bigint'})    
     id: Number;
+
+    @Column({ type: "bigint", nullable: false })
+    lead_id: number;
 
     @Column({ type: 'varchar', length: 150 })
     email: string;
@@ -37,6 +41,16 @@ export class UserEntity {
         default: () => 'CURRENT_TIMESTAMP',
     })
     updated_at: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async hashPassword() {
+        console.log('password')
+        if (!this.password) {
+            return;
+        }
+        this.password = await bcrypt.hash(this.password, 10);
+    }    
 
     // ---------------------------------------------------
     // Relationships

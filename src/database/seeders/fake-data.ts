@@ -1,14 +1,17 @@
 import { UnitOfWorkService } from 'src/core/services/unit-of-work.service';
 import * as _ from 'lodash';
+import * as dayjs from 'dayjs'
+import { UserEntity } from '../models/user.entity';
 
 export class FakeDataSeed {
     constructor(private readonly uow: UnitOfWorkService) {}
 
-    async run() {            
+    async run() {                    
         await this.createAreas();        
         await this.createThematics();  
         await this.createTestConfig();
-        await this.createQuestionAndAlternatives();        
+        await this.createQuestionAndAlternatives();                
+        await this.createLeads();        
     }
 
     async createAreas() {
@@ -20,7 +23,7 @@ export class FakeDataSeed {
         ];        
 
         await this.uow.getManager().getRepository('areas').save(areaData);
-        console.log('> areas seeded');
+        console.log('areas seeded');
     }
 
     async createThematics() {
@@ -46,7 +49,7 @@ export class FakeDataSeed {
         ];        
 
         await this.uow.getManager().getRepository('thematics').save(thematicData);
-        console.log('> thematics seeded');
+        console.log('thematics seeded');
     }
 
     async createTestConfig(){
@@ -73,7 +76,7 @@ export class FakeDataSeed {
         ];
 
         await this.uow.getManager().getRepository('test_configs').save(testConfigData);
-        console.log('> test_configs seeded');
+        console.log('test_configs seeded');
     }
     
     async createQuestionAndAlternatives()
@@ -90,8 +93,8 @@ export class FakeDataSeed {
         // Geography, ID: GK4
         await this.buildQuestionAndAlternativesFromJsonData(require('./data/q-general-geography.json').results, 'GK4', [10,11,12]);  
         
-        console.log('> questions seeded');
-        console.log('> alternatives seeded');
+        console.log('questions seeded');
+        console.log('alternatives seeded');
     }
 
     private async buildQuestionAndAlternativesFromJsonData(jsonData: any, codeThematicReference: string, testConfigIds: number[]) {
@@ -158,6 +161,47 @@ export class FakeDataSeed {
         await this.uow.getManager().getRepository('alternatives').save(alternatives);               
     }    
 
+    async createLeads(){
+        let birthDate = dayjs('1990-01-01');
+        let leadData = {
+            id: 1,
+            name: 'Walter',
+            surname: 'White',
+            mother_surname: 'Heisenberg',
+            gender: 'M',
+            email: 'wwhite@test.com',
+            cellphone: '123456789',
+            document_number: '11223344',
+            birthdate: birthDate.format('YYYY-MM-DD'),
+            interest_career_id: 'A0001',
+            interest_career_name: 'Software Engineer',
+            school_id: 'SCH0001',
+            school_name: 'Trilce Miraflores',
+            promoter_id: 'PRO0001',
+            promoter_name: 'Jesse Pinkman',
+            hs_code: 'HS0001',
+            hs_name: 'Secundaria Completa',
+            hs_year_completed: new Date().getFullYear(),
+            source: 'Prospección',
+            source_detail: 'Examen Simulacro 001',
+        };
+
+        //await this.uow.getManager().getRepository('leads').save(leadData);
+        console.log('leads seeded');
+
+        let userData = {
+            email: leadData.email,
+            password: birthDate.format('DDMMYYYY'),
+            is_active: true,
+            lead_id: leadData.id
+        };
+
+        let user = await this.uow.getManager().getRepository('users').create(userData);                                
+        await this.uow.getManager().getRepository('users').save(user);
+        
+        console.log('users seeded');
+    }
+
     private async getLastQuestionId()
     {
         return await this.uow.getManager().getRepository('questions').find({
@@ -168,10 +212,5 @@ export class FakeDataSeed {
         }).then((question: any) => {            
             return question.length == 0 ? 0 : question[0].id 
         });
-    }
-
-    private getLevelArray(): any
-    {
-        return ['EXPECTED','BASIC', 'INTERMEDIATE'];
-    }
+    }    
 }
